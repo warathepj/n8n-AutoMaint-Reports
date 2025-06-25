@@ -114,8 +114,3 @@ def generate_cost_of_parts_by_asset_type_chart(excel_file='cmms.xlsx', output_fi
         print(f"An error occurred while saving the chart: {e}")
     finally:
         plt.close() # Close the plot to free up memory
-
-if __name__ == "__main__":
-    generate_average_repair_time_chart(output_file='report/average_repair_time_by_asset_type.png')
-    generate_problem_description_frequency_chart(output_file='report/problem_description_frequency.png')
-    generate_cost_of_parts_by_asset_type_chart(output_file='report/cost_of_parts_by_asset_type.png')
