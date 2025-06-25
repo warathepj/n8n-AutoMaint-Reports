@@ -39,5 +39,44 @@ def generate_average_repair_time_chart(excel_file='cmms.xlsx', output_file='aver
     finally:
         plt.close() # Close the plot to free up memory
 
+def generate_problem_description_frequency_chart(excel_file='cmms.xlsx', output_file='problem_description_frequency.png'):
+    """
+    Generates a bar chart showing the frequency of common issues (ProblemDescription).
+
+    Args:
+        excel_file (str): Path to the input Excel file.
+        output_file (str): Path to save the generated chart image.
+    """
+    try:
+        df = pd.read_excel(excel_file)
+    except FileNotFoundError:
+        print(f"Error: The file '{excel_file}' was not found.")
+        return
+    except Exception as e:
+        print(f"An error occurred while reading the Excel file: {e}")
+        return
+
+    # Count the occurrences of each unique ProblemDescription
+    problem_frequency = df['ProblemDescription'].value_counts().sort_values(ascending=False)
+
+    # Create the bar chart
+    plt.figure(figsize=(12, 7))
+    problem_frequency.plot(kind='bar', color='lightcoral')
+    plt.title('Common Issues/Problem Description Frequency')
+    plt.xlabel('Problem Description')
+    plt.ylabel('Frequency')
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout() # Adjust layout to prevent labels from being cut off
+
+    # Save the chart
+    try:
+        plt.savefig(output_file)
+        print(f"Chart saved successfully to '{output_file}'")
+    except Exception as e:
+        print(f"An error occurred while saving the chart: {e}")
+    finally:
+        plt.close() # Close the plot to free up memory
+
 if __name__ == "__main__":
     generate_average_repair_time_chart(output_file='report/average_repair_time_by_asset_type.png')
+    generate_problem_description_frequency_chart(output_file='report/problem_description_frequency.png')
